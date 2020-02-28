@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<title>Dataset Analysis [Part 3]: Cost of Living / Analysis, result and discussions</title>
+<!-- Begin Jekyll SEO tag v2.1.0 -->
+<title>Dataset Analysis [Part 3]: Cost of Living / Analysis, result and discussions - André Moabson</title>
+<meta property="og:title" content="Dataset Analysis [Part 3]: Cost of Living / Analysis, result and discussions" />
+<meta name="description" content="Data analysis" />
+<meta property="og:description" content="Data analysis" />
+<link rel="canonical" href="http://localhost:4000/data-science/2020/02/28/dataset-cost-of-living-part-3.html" />
+<meta property="og:url" content="http://localhost:4000/data-science/2020/02/28/dataset-cost-of-living-part-3.html" />
+<meta property="og:site_name" content="André Moabson" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-02-28T00:00:00-03:00" />
+<script type="application/ld+json">
+{"@context": "http://schema.org",
+"@type": "BlogPosting",
+"headline": "Dataset Analysis [Part 3]: Cost of Living / Analysis, result and discussions",
+"datePublished": "2020-02-28T00:00:00-03:00",
+"description": "Data analysis",
+"url": "http://localhost:4000/data-science/2020/02/28/dataset-cost-of-living-part-3.html"}</script>
+<!-- End Jekyll SEO tag -->
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="http://localhost:4000"><img src="/assets/portifolio.png" alt="André Moabson"></a>
+			<h2>André Moabson</h2>
+			<p class="tagline">Developer and Researcher</p>
+			<div style="text-align: center; margin-bottom: 17px;">Student of Computer Science at University Federal of Alagoas</div>
+			<div style="text-align: center; margin-bottom: 17px;">C, C++, Java, Python, Artificial Intelligence, Data Science, Software Engineering, Machine Learning.</div>
+			<div style="text-align: center; "><a href="mailto:amsr@ic.ufal.br">amsr@ic.ufal.br</a></div>
+			<ul style="margin-top: 17px;" class="social"><a href="https://github.com/moabson"><li><i class="icon-github-circled"></i></li></a></ul>
+			<nav>
+				<a href="http://localhost:4000">Home</a>
+				<a href="/about.html">About</a>
+				<!-- <a href="/research.html">Research</a> -->
+				<a href="/projects.html">Projects</a>					
+			</nav>
+			<p>&copy; 2019</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+  <a class="post-link" href="/data-science/2020/02/28/dataset-cost-of-living-part-3.html">
+    <h2 class="post-title">Dataset Analysis [Part 3]: Cost of Living / Analysis, result and discussions</h2>
+  </a>
+  <div class="post-meta">
+    <ul class="post-categories"><li>data-science</li></ul>
+    <!-- <div class="post-date"><i class="icon-calendar"></i>Feb 28, 2020</div> -->
+  </div>
+  <div class="post">
+    <h1 id="data-analysis">Data analysis</h1>
+
+<p>The <strong>K-Means</strong> method was applied in order to obtain groupings of cities based on the variables presented. As the number of variables in the database is above 2, <strong>PCA (Principal Component Analysis)</strong> was used to reduce the dimensions to just 2. With this, it was possible to graphically analyze the choice of <strong>K</strong> value for <strong>K-Means</strong>.</p>
+
+<h2 id="code">Code</h2>
+
+<p>The following libraries were used:</p>
+<ul>
+  <li>sklearn: build the model using K-Means algorithm;</li>
+  <li>matplotlib: plotting graphs (boxplot);</li>
+  <li>pandas: DataFrame for store data from csv and fast manipulation;</li>
+  <li>seaborn: plotting graphs (clusters).</li>
+</ul>
+
+<p>Importing de libraries necessary…</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+</code></pre></div></div>
+
+<p>Loading data to DataFrame….</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"data/cost-of-living-transpose.csv"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Building a model…</p>
+
+<ol>
+  <li>Selection of features
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">features</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dataframe</span><span class="o">.</span><span class="n">columns</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">features_data</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Create a model
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s">'k-means++'</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span> <span class="mi">300</span><span class="p">,</span> <span class="n">n_init</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Train model with data, predict cluster index for each city and store on DataFrame on column called <em>clusters</em>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataframe</span><span class="p">[</span><span class="s">"clusters"</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">features_data</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Save result on csv
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataframe</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">"data/result.csv"</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>Viewing clusters</p>
+
+<ol>
+  <li>Reduce dimensionality using PCA</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">reduced_data</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">features_data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">reduced_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">"pca1"</span><span class="p">,</span><span class="s">"pca2"</span><span class="p">])</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Using scatter plot</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">"pca1"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">"pca2"</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="n">dataframe</span><span class="p">[</span><span class="s">"clusters"</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">results</span><span class="p">)</span>
+  
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"K-means clustering with 2 dimensions"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/assets/posts/cost-of-living/cluster.png" alt="Dataset file" /></p>
+
+<h2 id="boxplot">Boxplot</h2>
+
+<p>Initially, a set of three boxplots per variable was analyzed, each boxplot being related to a cluster.</p>
+
+<p>These graphs can indicate the location of the median and the variation in each cluster. It can also indicate outliers, which can have a significant impact on the interpretation of the clusters.</p>
+
+<p>The code below shows how the boxplot was generated…</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">group_by_clusters</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">"clusters"</span><span class="p">)</span>
+<span class="n">average</span> <span class="o">=</span> <span class="n">group_by_clusters</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">std</span> <span class="o">=</span> <span class="n">group_by_clusters</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">average</span><span class="p">[</span><span class="n">feature</span><span class="p">])</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">std</span><span class="p">[</span><span class="n">feature</span><span class="p">])</span>
+    <span class="n">group_by_clusters</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">column</span> <span class="o">=</span> <span class="n">feature</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>For example, in the “Average monthly net salary” variable, cluster 0 has the highest cost, cluster 1 having the lowest cost and cluster 2 has an intermediate cost and with the greatest variation.</p>
+
+<p><img src="/assets/posts/cost-of-living/boxplot1.png" alt="Dataset file" /></p>
+
+<p>In the variable below, cluster 0 has the highest cost, clusters 1 and 2 have very similar costs. Of them, only cluster 0 has the greatest variation.</p>
+
+<p><img src="/assets/posts/cost-of-living/boxplot2.png" alt="Dataset file" /></p>
+
+<p>The other boxplots follow similar trends. In general, cluster 0 has the highest cost, cluster 1 has the lowest cost and cluster 2 has the intermediate cost with the greatest variation.</p>
+
+<h2 id="hypothesis-testing">Hypothesis testing</h2>
+
+<p>Initially, in each variable, an ordering of the clusters was made based on the average of each in each variable. For example, considering variable X, if cluster 2 has a higher average, it will come first than the other clusters.</p>
+
+<p>With ordered clusters, we can already assess which has the highest cost of living and which has the lowest cost of living. However, another question arises: are the averages of each cluster significantly different from each other?</p>
+
+<p>The hypothesis test chosen was a non-parametric one called <strong>Mann-Whitney</strong>. In addition to our base being reduced, each cluster does not have the same size, so a non-parametric method was more appropriate.</p>
+
+<p>The hypothesis test tested the difference in means between the highest average cluster versus the intermediate average cluster, and then the intermediate average and the lowest average cluster. Thus, we can compare the results of the boxplot more safely.</p>
+
+<ul>
+  <li>H0: the average between two groupings are equal</li>
+  <li>H1: the averages are different</li>
+  <li>
+    <p>alpha = 0.05</p>
+  </li>
+  <li>Procedure:
+    <ul>
+      <li>Ordering of clusters based on average</li>
+      <li>Testing the first cluster with the second</li>
+      <li>Testing the second cluster with the third</li>
+    </ul>
+  </li>
+</ul>
+
+<p>For example, for “Meal for 2 People, Mid-range Restaurant, Three-course” and “McMeal at McDonalds (or Equivalent Combo Meal)”.</p>
+
+<p><img src="/assets/posts/cost-of-living/hyp.png" alt="Dataset file" /></p>
+
+<p>The clusters are presented in the order of average, and show the average, standard deviation and a mark (0, 1 or 2), to indicate whether it is the same or different from the next cluster. For the first variable presented above, there is no significant difference between the three clusters. In the second variable, there is no significant difference between the cluster 2 and 0, but there is a significant difference between the cluster 0 and 1.</p>
+
+<p>Most variables had the same pattern presented in the analysis of boxplots. Some showed that there was no significant difference.</p>
+
+<h2 id="result-and-discussions">Result and Discussions</h2>
+
+<p>Groups can be characterized as shown below:</p>
+
+<ul>
+  <li>Cluster 0:
+    <ul>
+      <li><strong>Higher cost</strong> of living with little price variation;</li>
+      <li>Some more affordable luxury items;</li>
+      <li>33 cities in this group.</li>
+    </ul>
+  </li>
+  <li>Cluster 1:
+    <ul>
+      <li><strong>Lower cost</strong> of living with little price variation;</li>
+      <li>There are cases of prices above average (outliers);</li>
+      <li>111 cities in this group.</li>
+    </ul>
+  </li>
+  <li>Cluster 2:
+    <ul>
+      <li>Cost uncertainty;</li>
+      <li>Ideal for any consumption profile;</li>
+      <li>16 cities in this group.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>It can be concluded that the objective of the present work was achieved, managing to characterize the three groups in a satisfactory way.</p>
+
+<h2 id="github-repository">Github repository</h2>
+
+<p>The link for github repository for this anlysis is <a href="https://github.com/moabson/cost-of-living-analysis">https://github.com/moabson/cost-of-living-analysis</a>.</p>
+
+  </div></div>
+
+		</section>
+	</main></body>
+</html>

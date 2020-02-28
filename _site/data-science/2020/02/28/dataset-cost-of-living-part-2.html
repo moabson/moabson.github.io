@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<title>Dataset Analysis [Part 2]: Cost of Living / Visualization and Manipulation</title>
+<!-- Begin Jekyll SEO tag v2.1.0 -->
+<title>Dataset Analysis [Part 2]: Cost of Living / Visualization and Manipulation - André Moabson</title>
+<meta property="og:title" content="Dataset Analysis [Part 2]: Cost of Living / Visualization and Manipulation" />
+<meta name="description" content="Data visualization" />
+<meta property="og:description" content="Data visualization" />
+<link rel="canonical" href="http://localhost:4000/data-science/2020/02/28/dataset-cost-of-living-part-2.html" />
+<meta property="og:url" content="http://localhost:4000/data-science/2020/02/28/dataset-cost-of-living-part-2.html" />
+<meta property="og:site_name" content="André Moabson" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-02-28T00:00:00-03:00" />
+<script type="application/ld+json">
+{"@context": "http://schema.org",
+"@type": "BlogPosting",
+"headline": "Dataset Analysis [Part 2]: Cost of Living / Visualization and Manipulation",
+"datePublished": "2020-02-28T00:00:00-03:00",
+"description": "Data visualization",
+"url": "http://localhost:4000/data-science/2020/02/28/dataset-cost-of-living-part-2.html"}</script>
+<!-- End Jekyll SEO tag -->
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="http://localhost:4000"><img src="/assets/portifolio.png" alt="André Moabson"></a>
+			<h2>André Moabson</h2>
+			<p class="tagline">Developer and Researcher</p>
+			<div style="text-align: center; margin-bottom: 17px;">Student of Computer Science at University Federal of Alagoas</div>
+			<div style="text-align: center; margin-bottom: 17px;">C, C++, Java, Python, Artificial Intelligence, Data Science, Software Engineering, Machine Learning.</div>
+			<div style="text-align: center; "><a href="mailto:amsr@ic.ufal.br">amsr@ic.ufal.br</a></div>
+			<ul style="margin-top: 17px;" class="social"><a href="https://github.com/moabson"><li><i class="icon-github-circled"></i></li></a></ul>
+			<nav>
+				<a href="http://localhost:4000">Home</a>
+				<a href="/about.html">About</a>
+				<!-- <a href="/research.html">Research</a> -->
+				<a href="/projects.html">Projects</a>					
+			</nav>
+			<p>&copy; 2019</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+  <a class="post-link" href="/data-science/2020/02/28/dataset-cost-of-living-part-2.html">
+    <h2 class="post-title">Dataset Analysis [Part 2]: Cost of Living / Visualization and Manipulation</h2>
+  </a>
+  <div class="post-meta">
+    <ul class="post-categories"><li>data-science</li></ul>
+    <!-- <div class="post-date"><i class="icon-calendar"></i>Feb 28, 2020</div> -->
+  </div>
+  <div class="post">
+    <h1 id="data-visualization">Data visualization</h1>
+
+<p>After downloading the dataset, it would be interesting to view the data first. In this case our dataset is in .csv format, how is he not so big, for a quick view we will use <strong>LibreOffice Calc</strong>, it is free and has open source.</p>
+
+<p><img src="/assets/posts/cost-of-living/cost-of-living-dataset.png" alt="Dataset file" /></p>
+
+<p>Opening this file, we can quickly see the “face” of our data.</p>
+
+<p><img src="/assets/posts/cost-of-living/datavisualization1.png" alt="Dataset file" /></p>
+
+<p>As we can see, for example, on line 13, the price of a Water (1.5 liter bottle) that varies according to the city, as well as Internet (60 Mbps or More, Unlimited Data, Cable / ADSL) on line 29. <strong>With that we may ask: which cities have the highest / lowest cost of living based on the price of the items listed?</strong></p>
+
+<h1 id="data-manipulation">Data manipulation</h1>
+
+<p>As previously mentioned we will invert the data in such a way that the lines represent the cities and the columns the items. We will do this using LibreOffice Calc.</p>
+
+<ol>
+  <li>select all data</li>
+  <li>copy selected data</li>
+  <li>create new worksheet and click on A1 cell</li>
+  <li>paste using the shortcut <strong>ctrl + shift + v</strong></li>
+  <li>click on checkbox option “Transpose” and press button “OK”</li>
+</ol>
+
+<p><img src="/assets/posts/cost-of-living/datamanipulation1.png" alt="Dataset file" /></p>
+
+<p>Now we have the data as we wanted it…</p>
+
+<p><img src="/assets/posts/cost-of-living/datamanipulation2.png" alt="Dataset file" /></p>
+
+
+  </div></div>
+
+		</section>
+	</main></body>
+</html>
